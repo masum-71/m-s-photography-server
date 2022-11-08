@@ -25,10 +25,20 @@ const client = new MongoClient(uri, {
 async function run() {
   try {
     const serviceCollection = client.db("photography").collection("services");
+
+    //get api for service-home
     app.get("/services-home", async (req, res) => {
       const query = {};
       const cursor = serviceCollection.find(query);
       const services = await cursor.limit(3).toArray();
+      res.send(services);
+    });
+
+    //get api for services page
+    app.get("/services", async (req, res) => {
+      const query = {};
+      const cursor = serviceCollection.find(query);
+      const services = await cursor.toArray();
       res.send(services);
     });
   } finally {
